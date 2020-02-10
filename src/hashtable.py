@@ -61,13 +61,11 @@ class HashTable:
 
         if current is not None:
             current.value = value
-        
+
         else:
-            self.storage[index] = LinkedPair(key, value)
-            self.storage[index].next = self.storage[index]
-
-
-
+            new = LinkedPair(key, value)
+            new.next = self.storage[index]
+            self.storage[index] = new
 
     def remove(self, key):
         '''
@@ -77,6 +75,19 @@ class HashTable:
 
         Fill this in.
         '''
+        index = self._hash_mod(key)
+        current = self.storage[index]
+        prev = None
+
+        while current is not None and current.key != key:
+            prev = current
+            current = prev.next
+
+        if prev is None:
+            self.storage[index] = None
+
+        else:
+            prev.next = None
 
 
     def retrieve(self, key):
@@ -103,7 +114,15 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        self.capacity = self.capacity * 2
+        prev = self.storage
+        self.storage = [None] * self.capacity
+        item = None
+
+        for item in prev:
+            while item is not None:
+                self.insert(item.key, item.value)
+                item = item.next
 
 
 
