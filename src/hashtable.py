@@ -83,11 +83,11 @@ class HashTable:
             prev = current
             current = prev.next
 
+        if current is None:
+            print(f'Error: key {key} not found.')
+
         if prev is None:
             self.storage[index] = None
-
-        else:
-            prev.next = None
 
 
     def retrieve(self, key):
